@@ -2,8 +2,9 @@ import { Component, Fragment } from 'react';
 import api from '../src/api';
 import Link from 'next/link';
 import Roster from '../src/roster';
+import Layout from '../src/layout';
 import moment from 'moment';
-import { Div, Ul, Li } from 'glamorous';
+import { Div, Ul, Li, A } from 'glamorous';
 
 function resourceReducer(state, resource) {
     const { id, type } = resource;
@@ -43,26 +44,26 @@ export default class extends Component {
         console.log(this.props);
         const match = this.props.response.data;
         return (
-            <Div width="960">
-                <Link href="/"><a>Search For Player</a></Link>
+            <Layout>
+                <Link href="/"><A color="white" cursor="pointer" textDecoration="underline">Search For Player</A></Link>
 
                 <h1>Match Report</h1>
                 <Ul listStyleType="none" paddingLeft="0" width="100%">
-                    <Li display="inline-block" textAlign="center" padding="20" marginRight="10" backgroundColor="#eeeeee" width="192">
+                    <Li display="inline-block" textAlign="center" padding="20" marginRight="10" width="192">
                         <h2>{moment(match.attributes.createdAt).fromNow()}</h2>
-                        <p style={{textTransform: 'uppercase', fontSize: 14}}>Created At</p>
+                        <p style={{color: '#6B7A86', textTransform: 'uppercase', fontSize: 14}}>Created At</p>
                     </Li>
-                    <Li display="inline-block" textAlign="center" padding="20" marginRight="10" backgroundColor="#eeeeee" width="192">
+                    <Li display="inline-block" textAlign="center" padding="20" marginRight="10" width="192">
                         <h2>{moment.duration(match.attributes.duration, 'seconds').humanize()}</h2>
-                        <p style={{textTransform: 'uppercase', fontSize: 14}}>Duration</p>
+                        <p style={{color: '#6B7A86', textTransform: 'uppercase', fontSize: 14}}>Duration</p>
                     </Li>
-                    <Li display="inline-block" textAlign="center" padding="20" marginRight="10" backgroundColor="#eeeeee" width="192">
+                    <Li display="inline-block" textAlign="center" padding="20" marginRight="10" width="192">
                         <h2>{match.attributes.gameMode}</h2>
-                        <p style={{textTransform: 'uppercase', fontSize: 14}}>Game Mode</p>
+                        <p style={{color: '#6B7A86', textTransform: 'uppercase', fontSize: 14}}>Game Mode</p>
                     </Li>
-                    <Li display="inline-block" textAlign="center" padding="20" backgroundColor="#eeeeee" width="192">
+                    <Li display="inline-block" textAlign="center" padding="20" width="192">
                         <h2>{match.attributes.shardId}</h2>
-                        <p style={{textTransform: 'uppercase', fontSize: 14}}>Platform / Region</p>
+                        <p style={{color: '#6B7A86', textTransform: 'uppercase', fontSize: 14}}>Platform / Region</p>
                     </Li>
                 </Ul>
 
@@ -98,7 +99,7 @@ export default class extends Component {
                         stats={roster.attributes.stats}
                         participants={this.getAll(roster.relationships.participants.data)} />;
                 })}
-            </Div>
+            </Layout>
         )
     }
 };
