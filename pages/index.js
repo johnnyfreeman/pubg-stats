@@ -26,7 +26,7 @@ export default class extends Component {
                         type="text"
                         value={this.state.query} />
 
-                    <Link href={`/players?name=${this.state.query}`}>
+                    <Link href={`/players?names=${this.state.query}`}>
                         <Button backgroundColor="#F7A448" border="1px solid #F7A448" borderRadius="3" color="white" fontSize="14" marginLeft="10" padding="10">Find</Button>
                     </Link>
                 </form>

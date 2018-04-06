@@ -7,7 +7,7 @@ import { A } from 'glamorous';
 export default class extends Component {
     static async getInitialProps({ query }) {
         try {
-            const response = await api.get(`/pc-na/players?filter[playerNames]=${query.name}`);
+            const response = await api.get(`/pc-na/players?filter[playerNames]=${query.names}`);
             return { response: response.data };
         } catch (error) {
             return { error };
