@@ -22,12 +22,16 @@ export default class extends Component {
                 <h1>{this.props.response.data.attributes.name}</h1>
 
                 <Table width="100%">
-                    {this.props.response.data.relationships.matches.data.map(({id, type}, i) => {
-                        const backgroundColor = i % 2 == 0 ? '#343E47' : '#46525C';
-                        return <tr><Td key={id} padding="15px 25px" backgroundColor={backgroundColor} fontSize="18">
-                            <Link href={`/match?id=${id}`}><A color="#F7A448" cursor="pointer" textDecoration="underline">{id}</A></Link>
-                        </Td></tr>;
-                    })}
+                    <tbody>
+                        {this.props.response.data.relationships.matches.data.map(({id, type}, i) => {
+                            const backgroundColor = i % 2 == 0 ? '#343E47' : '#46525C';
+                            return <tr key={id}>
+                                <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18">
+                                    <Link href={`/match?id=${id}`}><A color="#F7A448" cursor="pointer" textDecoration="underline">{id}</A></Link>
+                                </Td>
+                            </tr>;
+                        })}
+                    </tbody>
                 </Table>
             </Layout>
         )
