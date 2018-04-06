@@ -69,7 +69,7 @@ export default class extends Component {
         const match = this.props.response.data;
         return (
             <Layout>
-                <Link href="/"><A color="white" cursor="pointer" textDecoration="underline">Search For Player</A></Link>
+                <Link href="/"><A color="white" cursor="pointer" textDecoration="underline">Find Another Player</A></Link>
 
                 <h1>Match Report</h1>
                 <Ul listStyleType="none" paddingLeft="0" width="100%">

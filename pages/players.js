@@ -2,7 +2,7 @@ import { Component, Fragment } from 'react';
 import api from '../src/api';
 import Layout from '../src/layout';
 import Link from 'next/link';
-import { A } from 'glamorous';
+import { Table, Td, A } from 'glamorous';
 
 export default class extends Component {
     static async getInitialProps({ query }) {
@@ -16,15 +16,16 @@ export default class extends Component {
 
     renderResponseData() {
         return (
-            <ul>
-                {this.props.response.data.map((resource) => {
-                    return <li key={resource.id}>
+            <Table width="100%" marginTop="30">
+                {this.props.response.data.map((resource, i) => {
+                    const backgroundColor = i % 2 == 0 ? '#343E47' : '#46525C';
+                    return <tr><Td key={resource.id} padding="15px 25px" backgroundColor={backgroundColor} fontSize="18">
                         <Link href={`/player?id=${resource.id}`}>
                             <A color="#F7A448" cursor="pointer" textDecoration="underline">{resource.attributes.name}</A>
                         </Link>
-                    </li>;
+                    </Td></tr>;
                 })}
-            </ul>
+            </Table>
         );
     }
 
@@ -35,7 +36,7 @@ export default class extends Component {
     render() {
         return (
             <Layout>
-                <Link href="/"><A color="white" cursor="pointer" textDecoration="underline">Search For Player</A></Link>
+                <Link href="/"><A color="white" cursor="pointer" textDecoration="underline">Find Another Player</A></Link>
 
                 { this.props.error ? this.renderError() : this.renderResponseData() }
             </Layout>
