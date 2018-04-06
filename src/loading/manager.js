@@ -25,7 +25,6 @@ export default class LoadingManager extends Component {
         Router.onRouteChangeStart = undefined;
         Router.onRouteChangeComplete = undefined;
         Router.onRouteChangeError = undefined;
-        this.finish();
     }
 
     nextStep() {

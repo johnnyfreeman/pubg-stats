@@ -4,8 +4,7 @@ import { A, Div, Table, Tr, Th, Td } from 'glamorous';
 import moment from 'moment';
 
 export default function ({ id, type, stats, participants }) {
-    return <Div key={id} marginTop="30">
-        <h3>Team Rank: #{stats.rank}</h3>
+    return <Div key={id}>
         <Table width="100%">
             <thead>
                 <Tr>
@@ -18,25 +17,26 @@ export default function ({ id, type, stats, participants }) {
                 </Tr>
             </thead>
             <tbody>
-                {participants.map(({id, attributes}) => {
+                {participants.map(({id, attributes}, i) => {
+                    const backgroundColor = i % 2 == 0 ? '#343E47' : '#46525C';
                     const { playerId, name, kills, assists, DBNOs, damageDealt, timeSurvived } = attributes.stats;
                     return <Tr key={id}>
-                        <Td padding="15px 25px" backgroundColor="#343E47" fontSize="18">
+                        <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18">
                             <Link href={`/player?id=${playerId}`}><A color="#F7A448" cursor="pointer" textDecoration="underline">{name}</A></Link>
                         </Td>
-                        <Td padding="15px 25px" backgroundColor="#343E47" fontSize="18" textAlign="center">
+                        <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18" textAlign="center">
                             {kills}
                         </Td>
-                        <Td padding="15px 25px" backgroundColor="#343E47" fontSize="18" textAlign="center">
+                        <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18" textAlign="center">
                             {assists}
                         </Td>
-                        <Td padding="15px 25px" backgroundColor="#343E47" fontSize="18" textAlign="center">
+                        <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18" textAlign="center">
                             {DBNOs}
                         </Td>
-                        <Td padding="15px 25px" backgroundColor="#343E47" fontSize="18" textAlign="center">
+                        <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18" textAlign="center">
                             {damageDealt.toFixed(0)}
                         </Td>
-                        <Td padding="15px 25px" backgroundColor="#343E47" fontSize="18" textAlign="center">
+                        <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18" textAlign="center">
                             {moment.duration(timeSurvived, 'seconds').humanize()}
                         </Td>
                     </Tr>;

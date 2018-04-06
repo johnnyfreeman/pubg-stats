@@ -1,10 +1,10 @@
 import { Component, Fragment } from 'react';
 import api from '../src/api';
 import Link from 'next/link';
-import Roster from '../src/roster';
+import Participants from '../src/participants';
 import Layout from '../src/layout';
 import moment from 'moment';
-import { Div, Ul, Li, A } from 'glamorous';
+import { Div, Ul, Li, A, Table, Tr, Th, Td } from 'glamorous';
 
 function resourceReducer(state, resource) {
     const { id, type } = resource;
@@ -40,8 +40,32 @@ export default class extends Component {
         return resources.map(this.get.bind(this));
     }
 
+    sortRoster(a, b) {
+        const rosterA = this.get({ id: a.id, type: a.type });
+        const rosterB = this.get({ id: b.id, type: b.type });
+
+        if (this.props.me) {
+            if (rosterA.relationships.participants.data.some(resource => resource.id == this.props.me.id)) {
+                return -1;
+            }
+
+            if (rosterB.relationships.participants.data.some(resource => resource.id == this.props.me.id)) {
+                return 1;
+            }
+        }
+
+        if (rosterA.attributes.stats.rank > rosterB.attributes.stats.rank) {
+            return 1;
+        }
+
+        if (rosterA.attributes.stats.rank < rosterB.attributes.stats.rank) {
+            return -1;
+        }
+
+        return 0;
+    }
+
     render() {
-        console.log(this.props);
         const match = this.props.response.data;
         return (
             <Layout>
@@ -67,38 +91,52 @@ export default class extends Component {
                     </Li>
                 </Ul>
 
-                {this.props.response.data.relationships.rosters.data.sort((a, b) => {
-                    const rosterA = this.get({ id: a.id, type: a.type });
-                    const rosterB = this.get({ id: b.id, type: b.type });
+                <Table width="100%">
+                    <thead>
+                        <Tr>
+                            <Th color="#6B7A86" padding="10" textAlign="left" textTransform="uppercase" fontSize="14" fontWeight="normal" width="20">Rank</Th>
+                            <Th color="#6B7A86" padding="10" textAlign="left" textTransform="uppercase" fontSize="14" fontWeight="normal">Name</Th>
+                            <Th color="#6B7A86" padding="10" textAlign="center" textTransform="uppercase" fontSize="14" fontWeight="normal">Kills</Th>
+                            <Th color="#6B7A86" padding="10" textAlign="center" textTransform="uppercase" fontSize="14" fontWeight="normal">Assists</Th>
+                            <Th color="#6B7A86" padding="10" textAlign="center" textTransform="uppercase" fontSize="14" fontWeight="normal">DBNOs</Th>
+                            <Th color="#6B7A86" padding="10" textAlign="center" textTransform="uppercase" fontSize="14" fontWeight="normal">Damage Dealt</Th>
+                            <Th color="#6B7A86" padding="10" textAlign="center" textTransform="uppercase" fontSize="14" fontWeight="normal">Time Survived</Th>
+                        </Tr>
+                    </thead>
+                    <tbody>
+                        {this.props.response.data.relationships.rosters.data.sort(this.sortRoster.bind(this)).map(({id, type}, i) => {
+                            const backgroundColor = i % 2 == 0 ? '#343E47' : '#46525C';
+                            const roster = this.get({ id, type });
 
-                    if (this.props.me) {
-                        if (rosterA.relationships.participants.data.some(resource => resource.id == this.props.me.id)) {
-                            return -1;
-                        }
-
-                        if (rosterB.relationships.participants.data.some(resource => resource.id == this.props.me.id)) {
-                            return 1;
-                        }
-                    }
-
-                    if (rosterA.attributes.stats.rank > rosterB.attributes.stats.rank) {
-                        return 1;
-                    }
-
-                    if (rosterA.attributes.stats.rank < rosterB.attributes.stats.rank) {
-                        return -1;
-                    }
-
-                    return 0;
-                }).map(({id, type}) => {
-                    const roster = this.get({ id, type });
-
-                    return <Roster
-                        id={id}
-                        type={type}
-                        stats={roster.attributes.stats}
-                        participants={this.getAll(roster.relationships.participants.data)} />;
-                })}
+                            return this.getAll(roster.relationships.participants.data).map(({id, attributes}, i) => {
+                                const { winPlace, playerId, name, kills, assists, DBNOs, damageDealt, timeSurvived } = attributes.stats;
+                                return <Tr key={id}>
+                                    <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18" width="20">
+                                        {roster.attributes.stats.rank}
+                                    </Td>
+                                    <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18">
+                                        <Link href={`/player?id=${playerId}`}><A color="#F7A448" cursor="pointer" textDecoration="underline">{name}</A></Link>
+                                    </Td>
+                                    <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18" textAlign="center">
+                                        {kills}
+                                    </Td>
+                                    <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18" textAlign="center">
+                                        {assists}
+                                    </Td>
+                                    <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18" textAlign="center">
+                                        {DBNOs}
+                                    </Td>
+                                    <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18" textAlign="center">
+                                        {damageDealt.toFixed(0)}
+                                    </Td>
+                                    <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18" textAlign="center">
+                                        {moment.duration(timeSurvived, 'seconds').humanize()}
+                                    </Td>
+                                </Tr>;
+                            });
+                        })}
+                    </tbody>
+                </Table>
             </Layout>
         )
     }
