@@ -6,7 +6,7 @@ export default class LoadingBar extends Component {
     render() {
         return (
             <Span
-                background="#F7A448"
+                background="#F6993F"
                 position="absolute"
                 zIndex={1}
                 top={0}

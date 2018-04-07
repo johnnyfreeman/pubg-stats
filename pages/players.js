@@ -7,17 +7,13 @@ import { Table, Td, A } from 'glamorous';
 
 export default class extends Component {
     static async getInitialProps({ query }) {
-        try {
-            const response = await api.get(`/pc-na/players?filter[playerNames]=${query.names}`);
+        const response = await api.get(`/pc-na/players?filter[playerNames]=${query.names}`);
 
-            return {
-                players: response.data.data.map(function (player) {
-                    return denormalize.call({}, player, 0);
-                })
-            };
-        } catch (error) {
-            return { error };
-        }
+        return {
+            players: response.data.data.map(function (player) {
+                return denormalize.call({}, player, 0);
+            })
+        };
     }
 
     renderResponseData() {
@@ -29,7 +25,7 @@ export default class extends Component {
                         return <tr key={player.id}>
                             <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18">
                                 <Link href={`/player?id=${player.id}`}>
-                                    <A color="#F7A448" cursor="pointer" textDecoration="underline">{player.name}</A>
+                                    <A color="#F6993F" cursor="pointer" textDecoration="underline">{player.name}</A>
                                 </Link>
                             </Td>
                         </tr>;

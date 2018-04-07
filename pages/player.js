@@ -6,12 +6,8 @@ import { Table, Td, A } from 'glamorous';
 
 export default class extends Component {
     static async getInitialProps({ query }) {
-        try {
-            const response = await api.get(`/pc-na/players/${query.id}`);
-            return { response: response.data };
-        } catch (error) {
-            return { error };
-        }
+        const response = await api.get(`/pc-na/players/${query.id}`);
+        return { response: response.data };
     }
 
     render() {
@@ -27,7 +23,7 @@ export default class extends Component {
                             const backgroundColor = i % 2 == 0 ? '#343E47' : '#46525C';
                             return <tr key={id}>
                                 <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18">
-                                    <Link href={`/match?id=${id}`}><A color="#F7A448" cursor="pointer" textDecoration="underline">{id}</A></Link>
+                                    <Link href={`/match?id=${id}`}><A color="#F6993F" cursor="pointer" textDecoration="underline">{id}</A></Link>
                                 </Td>
                             </tr>;
                         })}

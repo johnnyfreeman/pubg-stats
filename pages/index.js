@@ -17,7 +17,7 @@ export default class extends Component {
                     <Input
                         autoFocus
                         backgroundColor="#343E47"
-                        border="1px solid #F7A448"
+                        border="1px solid #F6993F"
                         borderRadius="3"
                         color="white"
                         fontSize="14"
@@ -27,7 +27,7 @@ export default class extends Component {
                         value={this.state.query} />
 
                     <Link href={`/players?names=${this.state.query}`}>
-                        <Button backgroundColor="#F7A448" border="1px solid #F7A448" borderRadius="3" color="white" fontSize="14" marginLeft="10" padding="10">Find</Button>
+                        <Button backgroundColor="#F6993F" border="1px solid #F6993F" borderRadius="3" color="white" fontSize="14" marginLeft="10" padding="10">Find</Button>
                     </Link>
                 </form>
             </Layout>

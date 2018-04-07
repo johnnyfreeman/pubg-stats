@@ -9,19 +9,15 @@ import { Div, Ul, Li, A, Table, Tr, Th, Td } from 'glamorous';
 
 export default class extends Component {
     static async getInitialProps({ query }) {
-        try {
-            const response = await api.get(`/pc-na/matches/${query.id}`);
+        const response = await api.get(`/pc-na/matches/${query.id}`);
 
-            return {
-                match: denormalize.call(
-                    response.data.included.reduce(reducer, {}),
-                    response.data.data,
-                    3
-                )
-            };
-        } catch (error) {
-            return { error };
-        }
+        return {
+            match: denormalize.call(
+                response.data.included.reduce(reducer, {}),
+                response.data.data,
+                3
+            )
+        };
     }
 
     render() {
@@ -32,7 +28,7 @@ export default class extends Component {
                 <Link href="/"><A color="white" cursor="pointer" textDecoration="underline">Find Another Player</A></Link>
 
                 <h1>Match Report</h1>
-                
+
                 <Ul listStyleType="none" paddingLeft="0" width="100%">
                     <Li display="inline-block" textAlign="center" padding="20" marginRight="10" width="192">
                         <h2>{moment(match.createdAt).fromNow()}</h2>
@@ -66,7 +62,7 @@ export default class extends Component {
                     </thead>
                     <tbody>
                         {match.rosters.sort(byMeThenRank).map((roster, i) => {
-                            const backgroundColor = i % 2 == 0 ? '#343E47' : '#46525C';
+                            const backgroundColor = i == 0 ? '#F6993F' : i % 2 == 0 ? '#343E47' : '#46525C';
 
                             return roster.participants.map((participant, i) => {
                                 const { winPlace, playerId, name, kills, assists, DBNOs, damageDealt, timeSurvived } = participant.stats;
@@ -75,7 +71,7 @@ export default class extends Component {
                                         {roster.stats.rank}
                                     </Td>
                                     <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18">
-                                        <Link href={`/player?id=${playerId}`}><A color="#F7A448" cursor="pointer" textDecoration="underline">{name}</A></Link>
+                                        <Link href={`/player?id=${playerId}`}><A color="white" cursor="pointer" textDecoration="underline">{name}</A></Link>
                                     </Td>
                                     <Td padding="15px 25px" backgroundColor={backgroundColor} fontSize="18" textAlign="center">
                                         {kills}
